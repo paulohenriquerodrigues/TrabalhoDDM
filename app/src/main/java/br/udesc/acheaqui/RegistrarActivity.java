@@ -53,18 +53,9 @@ public class RegistrarActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(RegistrarActivity.this, "ERRO", Toast.LENGTH_SHORT).show();
                     }
-
                 }
-
-
             }
         });
-
-
-
-
-
-
 
     }
 }
