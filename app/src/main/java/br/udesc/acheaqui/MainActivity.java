@@ -52,12 +52,14 @@ public class MainActivity extends AppCompatActivity {
                 String senha = text_senha.getText().toString();
 
                 if (email.length() > 0 && senha.length() > 0) {
-                    String resposta = db.login(email, senha);
-                    if (resposta.equals("ok")) {
+                    String resposta = db.login(email,senha);
+                    if(resposta.equals("ok")){
                         Toast.makeText(MainActivity.this, "Logado com Sucesso", Toast.LENGTH_SHORT).show();
-                        Intent in = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(in);
-                    } else {
+
+                        Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(i);
+
+                    }else{
                         AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
                         alerta.setTitle("Aviso");
                         alerta
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         alertDialog.show();
                     }
 
-                } else {
+                }else{
                     AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
                     alerta.setTitle("Aviso");
                     alerta
