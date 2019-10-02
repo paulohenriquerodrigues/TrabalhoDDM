@@ -1,7 +1,10 @@
 package br.udesc.acheaqui;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,15 +46,34 @@ public class RegistrarActivity extends AppCompatActivity {
                 String bairro = text_bairro.getText().toString();
                 String sexo = "Masc";
 
-                if(nome.equals("")){
-                    Toast.makeText(RegistrarActivity.this, "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
+                if(nome.equals("") ||
+                   email.equals("") ||
+                   senha.equals("") ||
+                   cidade.equals("") ||
+                   bairro.equals("")){
+
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(RegistrarActivity.this);
+                    alerta.setTitle("Aviso");
+                    alerta
+                            .setMessage("Campo Obrigatório Não Preenchido")
+                            .setCancelable(false)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    AlertDialog alertDialog = alerta.create();
+                    alertDialog.show();
 
                 }else{
                     long resp = db.addUsuario(nome, email,senha,cidade,bairro,sexo);
                     if(resp > 0) {
                         Toast.makeText(RegistrarActivity.this, "Usuário cadastrado", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(RegistrarActivity.this, MainActivity.class);
+                        startActivity(i);
                     }else{
-                        Toast.makeText(RegistrarActivity.this, "ERRO", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrarActivity.this, "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
                     }
 
                 }

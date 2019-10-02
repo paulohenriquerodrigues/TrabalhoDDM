@@ -2,6 +2,7 @@ package br.udesc.acheaqui;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -36,9 +37,19 @@ public class DB_Usuario extends SQLiteOpenHelper {
         cv.put("senha", senha);
         cv.put("cidade", cidade);
         cv.put("bairro", bairro);
-        cv.put("sexo",sexo);
-        long result = db.insert("Usuarios", null,cv);
+        cv.put("sexo", sexo);
+        long result = db.insert("Usuarios", null, cv);
         return result;
+    }
+
+    public String login(String email, String senha) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM Usuarios WHERE email=? AND senha=?", new String[]{email, senha});
+        if (c.getCount() > 0) {
+            return "ok";
+        }
+        return "erro";
+
     }
 
 
