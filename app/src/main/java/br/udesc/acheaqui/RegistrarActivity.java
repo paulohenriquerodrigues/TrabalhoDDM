@@ -75,18 +75,9 @@ public class RegistrarActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(RegistrarActivity.this, "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
                     }
-
                 }
-
-
             }
         });
-
-
-
-
-
-
 
     }
 }

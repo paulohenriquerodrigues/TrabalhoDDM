@@ -29,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
         text_email = (EditText) findViewById(R.id.text_email);
         text_senha = (EditText) findViewById(R.id.text_senha);
 
-        bt_regitrar = (Button) findViewById(R.id.bt_registrar);
 
-        bt_regitrar.setOnClickListener(new View.OnClickListener() {
+        bt_regitrar = (Button) findViewById(R.id.bt_registrar);
+        bt_login = (Button) findViewById(R.id.bt_login);
+
+        bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -79,12 +81,25 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+               Intent in = new Intent(MainActivity.this, HomeActivity.class);
+               startActivity(in);
 
                                 }
                             });
                     AlertDialog alertDialog = alerta.create();
                     alertDialog.show();
                 }
+            }
+        });
+
+
+        bt_regitrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(MainActivity.this, RegistrarActivity.class);
+                startActivity(i);
+
             }
         });
     }
