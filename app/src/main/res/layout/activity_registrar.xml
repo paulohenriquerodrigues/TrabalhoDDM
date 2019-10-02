@@ -16,12 +16,12 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <EditText
                 android:id="@+id/text_nome"
-                android:layout_width="313dp"
+                android:layout_width="421dp"
                 android:layout_height="43dp"
                 android:layout_marginTop="40dp"
                 android:ems="10"
@@ -34,7 +34,7 @@
 
             <EditText
                 android:id="@+id/text_email"
-                android:layout_width="313dp"
+                android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
@@ -46,7 +46,7 @@
 
             <EditText
                 android:id="@+id/text_senha"
-                android:layout_width="313dp"
+                android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
@@ -58,7 +58,7 @@
 
             <EditText
                 android:id="@+id/text_cidade"
-                android:layout_width="313dp"
+                android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
@@ -71,7 +71,7 @@
 
             <EditText
                 android:id="@+id/text_bairro"
-                android:layout_width="313dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
@@ -83,7 +83,7 @@
 
             <RadioGroup
                 android:id="@+id/radioGroup2"
-                android:layout_width="315dp"
+                android:layout_width="match_parent"
                 android:layout_height="82dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
 
             <Button
                 android:id="@+id/bt_registrar"
-                android:layout_width="236dp"
+                android:layout_width="match_parent"
                 android:layout_height="59dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="40dp"
