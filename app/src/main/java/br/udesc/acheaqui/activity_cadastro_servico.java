@@ -23,8 +23,11 @@ public class activity_cadastro_servico extends AppCompatActivity {
 
     Button bt_imagem, bt_cadastrar;
     ImageView job_image;
-    EditText serv_nome, serv_cat, serv_desc, serv_tel, serv_valor;
+    EditText text_nome;
     String image_URI;
+    TextView text_categoria, text_telefone, text_valor, text_descricao;
+
+    DB_Servico db;
 
     public static final int PICK_IMAGE = 1;
     public static final int PERMISSION_CODE = 1;
@@ -34,13 +37,16 @@ public class activity_cadastro_servico extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_servico);
 
+        db = new DB_Servico(this);
+
         bt_imagem = (Button) findViewById(R.id.bt_imagem);
         bt_cadastrar = (Button) findViewById(R.id.bt_cadastrar);
-        serv_nome = (EditText) findViewById(R.id.serv_nome);
-        serv_cat = (EditText) findViewById(R.id.serv_cat);
-        serv_desc = (EditText) findViewById(R.id.serv_desc);
-        serv_tel = (EditText) findViewById(R.id.serv_tel);
-        serv_valor = (EditText) findViewById(R.id.serv_valor);
+
+        text_nome = (EditText) findViewById(R.id.serv_nome);
+        text_categoria = (TextView) findViewById(R.id.serv_cat);
+        text_telefone = (TextView) findViewById(R.id.serv_tel);
+        text_valor = (TextView) findViewById(R.id.serv_valor);
+        text_descricao = (TextView) findViewById(R.id.serv_desc);
 
         bt_imagem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +71,13 @@ public class activity_cadastro_servico extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String nome = serv_nome.getText().toString();
-                String categoria = serv_cat.getText().toString();
-                String descricao = serv_desc.getText().toString();
-                String telefone = serv_tel.getText().toString();
-                String valor = serv_valor.getText().toString();
+                String nome = text_nome.getText().toString();
+                String categoria = text_categoria.getText().toString();
+                String descricao = text_descricao.getText().toString();
+                String telefone = text_telefone.getText().toString();
+                float valor = Float.parseFloat(text_valor.getText().toString());
 
-                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor.trim().isEmpty() || image_URI == null) {
+                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor<0 || image_URI == null) {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(activity_cadastro_servico.this);
                     alerta.setTitle("Campos em branco");
                     alerta
@@ -86,7 +92,12 @@ public class activity_cadastro_servico extends AppCompatActivity {
                     AlertDialog alertDialog = alerta.create();
                     alertDialog.show();
                 } else {
-                    //TODO Salvar no banco!
+                    long resp = db.addServico(nome, categoria, telefone, Float.parseFloat("10"), descricao);
+                    if (resp > 0) {
+                        Toast.makeText(activity_cadastro_servico.this, "Serviço cadastrado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(activity_cadastro_servico.this, "Serviço não cadastrado", Toast.LENGTH_SHORT).show();
+                    }
                     Toast.makeText(activity_cadastro_servico.this, nome + " " + categoria + " " + descricao + " " + telefone + " " + valor + " " + image_URI, Toast.LENGTH_SHORT).show();
                 }
             }
