@@ -1,17 +1,19 @@
 package br.udesc.acheaqui;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
+
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,15 +21,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class activity_cadastro_servico extends AppCompatActivity {
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+
+
+
+import java.util.UUID;
+
+import br.udesc.acheaqui.model.Servico;
+
+public class Activity_cadastro_servico extends AppCompatActivity {
 
     Button bt_imagem, bt_cadastrar;
     ImageView job_image;
     EditText text_nome;
-    String image_URI;
+    Uri image_URI;
     TextView text_categoria, text_telefone, text_valor, text_descricao;
 
-    DB_Servico db;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    StorageReference mStorageRef;
+
 
     public static final int PICK_IMAGE = 1;
     public static final int PERMISSION_CODE = 1;
@@ -37,7 +56,6 @@ public class activity_cadastro_servico extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_servico);
 
-        db = new DB_Servico(this);
 
         bt_imagem = (Button) findViewById(R.id.bt_imagem);
         bt_cadastrar = (Button) findViewById(R.id.bt_cadastrar);
@@ -47,6 +65,9 @@ public class activity_cadastro_servico extends AppCompatActivity {
         text_telefone = (TextView) findViewById(R.id.serv_tel);
         text_valor = (TextView) findViewById(R.id.serv_valor);
         text_descricao = (TextView) findViewById(R.id.serv_desc);
+
+        inicializarFirebase();
+
 
         bt_imagem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +98,8 @@ public class activity_cadastro_servico extends AppCompatActivity {
                 String telefone = text_telefone.getText().toString();
                 float valor = Float.parseFloat(text_valor.getText().toString());
 
-                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor<0 || image_URI == null) {
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(activity_cadastro_servico.this);
+                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0 || image_URI == null) {
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(Activity_cadastro_servico.this);
                     alerta.setTitle("Campos em branco");
                     alerta
                             .setMessage("Por favor preencher todos os campos antes de efetuar o cadastro")
@@ -92,16 +113,50 @@ public class activity_cadastro_servico extends AppCompatActivity {
                     AlertDialog alertDialog = alerta.create();
                     alertDialog.show();
                 } else {
-                    long resp = db.addServico(nome, categoria, telefone, Float.parseFloat("10"), descricao);
-                    if (resp > 0) {
-                        Toast.makeText(activity_cadastro_servico.this, "Serviço cadastrado", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(activity_cadastro_servico.this, "Serviço não cadastrado", Toast.LENGTH_SHORT).show();
-                    }
-                    Toast.makeText(activity_cadastro_servico.this, nome + " " + categoria + " " + descricao + " " + telefone + " " + valor + " " + image_URI, Toast.LENGTH_SHORT).show();
+                    Servico s = new Servico();
+                    s.setUid(UUID.randomUUID().toString());
+                    s.setTitulo(nome);
+                    s.setCategoria(categoria);
+                    s.setStatus(1);
+                    s.setTelefone(telefone);
+                    s.setDescricao(descricao);
+                    s.setValor(valor);
+                    s.setUrlImagem(null);
+
+                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+                            + "." + getFileExtension(image_URI));
+                    fileReference.putFile(image_URI);
+//
+//                    String uploadId = databaseReference.push().getKey();
+//                    s.setUrlImagem(uploadId);
+
+                    databaseReference.child("Servico").child(s.getUid()).setValue(s)
+                            .addOnCompleteListener(Activity_cadastro_servico.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(Activity_cadastro_servico.this, "Serviço cadastrado", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(Activity_cadastro_servico.this, "Serviço não cadastrado", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            });
                 }
             }
         });
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void inicializarFirebase() {
+        FirebaseApp.initializeApp(Activity_cadastro_servico.this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
     }
 
     private void pickImage() {
@@ -110,13 +165,14 @@ public class activity_cadastro_servico extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             job_image = (ImageView) findViewById(R.id.job_image);
             job_image.setImageURI(data.getData());
-            image_URI = String.valueOf(data.getData());
+            image_URI = data.getData();
         }
     }
 }

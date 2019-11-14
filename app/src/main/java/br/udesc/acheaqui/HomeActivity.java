@@ -2,17 +2,22 @@ package br.udesc.acheaqui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
+import br.udesc.acheaqui.model.Servico;
+
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,13 @@ public class HomeActivity extends AppCompatActivity {
 
     ListView servicesList;
 
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+    private List<Servico> servicos = new ArrayList<Servico>();
+    private ArrayAdapter<Servico> adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,16 +41,39 @@ public class HomeActivity extends AppCompatActivity {
 
         servicesList = (ListView) findViewById(R.id.servicesList);
 
-        List<String> testes = new ArrayList();
-        testes.add("ITEM");
-        testes.add("ITEM");
-        testes.add("ITEM");
-        testes.add("ITEM");
-        testes.add("ITEM");
+        inicializarFirebase();
+        eventoDataBase();
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, testes);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        servicesList.setAdapter(dataAdapter);
+
+    }
+
+    private void eventoDataBase() {
+        databaseReference.child("Servico").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                servicos.clear();
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+
+                    Servico s = objSnapshot.getValue(Servico.class);
+                    servicos.add(s);
+                }
+                adapter = new ArrayAdapter<Servico>(HomeActivity.this,
+                        android.R.layout.simple_list_item_1, servicos);
+                servicesList.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void inicializarFirebase() {
+        FirebaseApp.initializeApp(HomeActivity.this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.setPersistenceEnabled(true);
+        databaseReference = firebaseDatabase.getReference();
     }
 
     @Override
@@ -52,11 +87,12 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addservice:
-                Intent i = new Intent(HomeActivity.this, activity_cadastro_servico.class);
+                Intent i = new Intent(HomeActivity.this, Activity_cadastro_servico.class);
                 startActivity(i);
                 return true;
             default:
                 return true;
         }
     }
+
 }
