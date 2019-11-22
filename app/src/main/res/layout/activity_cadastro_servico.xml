@@ -15,13 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp" >
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/text_nome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nome"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:textSize="25sp" />
 
             <EditText
@@ -29,6 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColorHighlight="@color/colorPrimary"
+                android:textColor="#000"
+                android:textStyle="bold"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -36,6 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Categoria"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:textSize="25sp" />
 
             <EditText
@@ -43,6 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="#000"
+                android:textStyle="bold"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -50,13 +59,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Telefone para contato"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/serv_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="#000"
+                android:textStyle="bold"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -64,6 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Valor"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:textSize="25sp" />
 
             <EditText
@@ -71,6 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="#000"
+                android:textStyle="bold"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -78,6 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Descrição"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:textSize="25sp" />
 
             <EditText
@@ -85,6 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="#000"
+                android:textStyle="bold"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -92,6 +113,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Imagem"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:textSize="25sp" />
 
             <ImageView
@@ -99,19 +122,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="282dp"
                 android:scaleType="centerInside"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                />
 
             <Button
                 android:id="@+id/bt_imagem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selecione uma imagem" />
+                android:text="Selecione uma imagem"
+                android:background="@drawable/round_button"
+                android:layout_marginBottom="30dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                />
 
             <Button
                 android:id="@+id/bt_cadastrar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cadastrar" />
+                android:text="Cadastrar"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:background="@drawable/round_button"
+                />
 
         </LinearLayout>
     </ScrollView>
