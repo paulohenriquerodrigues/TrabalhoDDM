@@ -98,6 +98,7 @@
                 android:id="@+id/job_image"
                 android:layout_width="match_parent"
                 android:layout_height="282dp"
+                android:scaleType="centerInside"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <Button

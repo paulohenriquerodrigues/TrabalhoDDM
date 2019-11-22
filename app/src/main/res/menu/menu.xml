@@ -8,8 +8,8 @@
         android:title="Adiconar Serviço"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/todo"
+    <item android:id="@+id/myAccount"
         android:icon="@drawable/ic_add"
-        android:title="Outra opção"
+        android:title="Minha conta"
         app:showAsAction="never"/>
 </menu>

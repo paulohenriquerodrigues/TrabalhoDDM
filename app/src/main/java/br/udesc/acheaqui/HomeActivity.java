@@ -8,8 +8,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import br.udesc.acheaqui.model.Servico;
 
 import com.google.firebase.database.ValueEventListener;
@@ -40,7 +44,16 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         servicesList = (ListView) findViewById(R.id.servicesList);
-
+        servicesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Object o = servicesList.getItemAtPosition(position);
+                    Servico servico = (Servico)o;
+                    Intent i = new Intent(HomeActivity.this, ServiceActivity.class);
+                    i.putExtra("Service", servico);
+                    startActivity(i);
+            }
+        });
         inicializarFirebase();
         eventoDataBase();
 
@@ -85,9 +98,14 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent i;
         switch (item.getItemId()) {
             case R.id.addservice:
-                Intent i = new Intent(HomeActivity.this, Activity_cadastro_servico.class);
+                i = new Intent(HomeActivity.this, Activity_cadastro_servico.class);
+                startActivity(i);
+                return true;
+            case R.id.myAccount:
+                i = new Intent(HomeActivity.this, MyAccountActivity.class);
                 startActivity(i);
                 return true;
             default:
