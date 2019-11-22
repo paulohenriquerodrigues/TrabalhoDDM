@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.UUID;
 
-import br.udesc.acheaqui.conexao.Conexao;
 import br.udesc.acheaqui.model.Usuario;
 
 public class RegistrarActivity extends AppCompatActivity {
@@ -95,41 +94,29 @@ public class RegistrarActivity extends AppCompatActivity {
                     u.setCidade(cidade);
                     u.setEstado(bairro);
                     u.setSexo(1);
-                    databaseReference.child("Usuario").child(u.getUId()).setValue(u);
+                    databaseReference.child("Usuario").child(u.getUId()).setValue(u)
+                            .addOnCompleteListener(RegistrarActivity.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(RegistrarActivity.this, "Usuário cadastrado", Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(RegistrarActivity.this, MainActivity.class);
+                                        startActivity(i);
+                                    } else {
+                                        Toast.makeText(RegistrarActivity.this, "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
 
-                    // criarUsuarioAutenticacao(email, senha);
-
-
+                                    }
+                                }
+                            });
                 }
             }
-
         });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        auth = Conexao.getFirebaseAuth();
     }
-/*
-    private void criarUsuarioAutenticacao(String email, String senha) {
-        auth.createUserWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(RegistrarActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegistrarActivity.this, "Usuário cadastrado", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(RegistrarActivity.this, MainActivity.class);
-                            startActivity(i);
-                        } else {
-                            Toast.makeText(RegistrarActivity.this, "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
-    }
-
- */
 
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(RegistrarActivity.this);
