@@ -121,7 +121,7 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                     s.setTelefone(telefone);
                     s.setDescricao(descricao);
                     s.setValor(valor);
-                    s.setUriImagem(image_URI);
+                    s.setUrlImagem(null);
 
                     StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                             + "." + getFileExtension(image_URI));
