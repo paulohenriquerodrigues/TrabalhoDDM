@@ -22,9 +22,10 @@
             <EditText
                 android:id="@+id/text_nome"
                 android:layout_width="421dp"
-                android:layout_height="43dp"
+                android:layout_height="53dp"
                 android:layout_marginTop="40dp"
                 android:ems="10"
+                android:textSize="30dp"
                 android:hint="Nome"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +36,9 @@
             <EditText
                 android:id="@+id/text_email"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="53dp"
                 android:layout_marginTop="20dp"
+                android:textSize="30dp"
                 android:ems="10"
                 android:hint="E-mail"
                 android:inputType="textEmailAddress"
@@ -47,8 +49,9 @@
             <EditText
                 android:id="@+id/text_senha"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="53dp"
                 android:layout_marginTop="20dp"
+                android:textSize="30dp"
                 android:ems="10"
                 android:hint="Senha"
                 android:inputType="textPassword"
@@ -59,8 +62,9 @@
             <EditText
                 android:id="@+id/text_cidade"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="53dp"
                 android:layout_marginTop="20dp"
+                android:textSize="30dp"
                 android:ems="10"
                 android:hint="Cidade"
                 android:inputType="textPersonName"
@@ -72,7 +76,8 @@
             <EditText
                 android:id="@+id/text_bairro"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:textSize="30dp"
+                android:layout_height="53dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Bairro"
@@ -84,7 +89,8 @@
             <RadioGroup
                 android:id="@+id/radioGroup2"
                 android:layout_width="match_parent"
-                android:layout_height="82dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_bairro">
@@ -93,7 +99,8 @@
                     android:id="@+id/rb_fem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fem"
+                    android:text="Feminino"
+                    android:textSize="25dp"
                     app:layout_constraintStart_toEndOf="@+id/radioGroup2"
                     app:layout_constraintTop_toTopOf="@+id/radioGroup2" />
 
@@ -101,7 +108,9 @@
                     android:id="@+id/rb_masc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Masc"
+                    android:text="Masculino"
+                    android:textSize="25dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="@+id/radioGroup2"
                     app:layout_constraintTop_toTopOf="@+id/radioGroup2" />
 
@@ -111,7 +120,7 @@
                 android:id="@+id/bt_registrar"
                 android:layout_width="match_parent"
                 android:layout_height="59dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/round_button"
                 android:text="Registrar"
