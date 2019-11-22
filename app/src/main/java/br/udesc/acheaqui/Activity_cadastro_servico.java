@@ -98,7 +98,9 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                 String telefone = text_telefone.getText().toString();
                 float valor = Float.parseFloat(text_valor.getText().toString());
 
-                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0 || image_URI == null) {
+                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0
+                //        || image_URI == null
+                ) {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(Activity_cadastro_servico.this);
                     alerta.setTitle("Campos em branco");
                     alerta
@@ -121,11 +123,12 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                     s.setTelefone(telefone);
                     s.setDescricao(descricao);
                     s.setValor(valor);
-                    s.seturiImagem(image_URI);
+                    // s.seturiImagem(image_URI);
 
-                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-                            + "." + getFileExtension(image_URI));
-                    fileReference.putFile(image_URI);
+//                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+//                            + "." + getFileExtension(image_URI));
+//                    fileReference.putFile(image_URI);
+
 //
 //                    String uploadId = databaseReference.push().getKey();
 //                    s.setUrlImagem(uploadId);
