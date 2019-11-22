@@ -97,7 +97,7 @@ public class RegistrarActivity extends AppCompatActivity {
                     u.setSexo(1);
                     databaseReference.child("Usuario").child(u.getUId()).setValue(u);
 
-                    criarUsuarioAutenticacao(email, senha);
+                    // criarUsuarioAutenticacao(email, senha);
 
 
                 }
@@ -111,7 +111,7 @@ public class RegistrarActivity extends AppCompatActivity {
         super.onStart();
         auth = Conexao.getFirebaseAuth();
     }
-
+/*
     private void criarUsuarioAutenticacao(String email, String senha) {
         auth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(RegistrarActivity.this, new OnCompleteListener<AuthResult>() {
@@ -128,6 +128,8 @@ public class RegistrarActivity extends AppCompatActivity {
                     }
                 });
     }
+
+ */
 
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(RegistrarActivity.this);
