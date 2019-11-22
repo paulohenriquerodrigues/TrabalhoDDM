@@ -10,8 +10,7 @@ public class UsuarioSingleton {
     public static synchronized UsuarioSingleton getInstance(){
         if(instancia == null){
             instancia = new UsuarioSingleton();
-        }else{
-            
         }
+        return instancia;
     }
 }

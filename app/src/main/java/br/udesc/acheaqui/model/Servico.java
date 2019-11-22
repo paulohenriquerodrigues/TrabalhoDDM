@@ -1,6 +1,10 @@
 package br.udesc.acheaqui.model;
 
-public class Servico {
+import android.net.Uri;
+
+import java.io.Serializable;
+
+public class Servico implements Serializable {
 
     private String uid;
     private String titulo;
@@ -8,7 +12,7 @@ public class Servico {
     private String telefone;
     private double valor;
     private String descricao;
-    private String urlImagem;
+    private Uri uriImagem;
     private String idUsuario;
     private int status;  //1 aberto 2 encerrado;
 
@@ -55,12 +59,12 @@ public class Servico {
         this.descricao = descricao;
     }
 
-    public String getUrlImagem() {
-        return urlImagem;
+    public Uri getUriImagem() {
+        return uriImagem;
     }
 
-    public void setUrlImagem(String urlImagem) {
-        this.urlImagem = urlImagem;
+    public void seturiImagem(Uri uriImagem) {
+        this.uriImagem = uriImagem;
     }
 
     public String getIdUsuario() {
