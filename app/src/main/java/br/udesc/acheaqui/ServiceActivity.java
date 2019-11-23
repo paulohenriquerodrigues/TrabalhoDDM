@@ -1,17 +1,17 @@
 package br.udesc.acheaqui;
 
+
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import java.io.IOException;
+import java.net.URL;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+
+import com.squareup.picasso.Picasso;
 
 import br.udesc.acheaqui.model.Servico;
 
@@ -41,7 +41,9 @@ public class ServiceActivity extends AppCompatActivity {
         categoria.setText("Categoria: " + servico.getCategoria());
         telefone.setText("Telefone para contato: " + servico.getTelefone());
         descricao.setText("Descrição: " + servico.getDescricao());
-        image.setImageURI(servico.getUriImagem());
+
+        Picasso.get().load(servico.getUriImagem()).into(image);
+
 
     }
 

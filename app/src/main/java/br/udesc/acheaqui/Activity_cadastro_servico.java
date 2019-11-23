@@ -12,7 +12,6 @@ import android.webkit.MimeTypeMap;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,14 +28,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.UploadTask;
+import com.google.firebase.storage.UploadTask.TaskSnapshot;
 
 
 import java.net.URI;
 import java.util.UUID;
 
 import br.udesc.acheaqui.model.Servico;
+import br.udesc.acheaqui.model.UsuarioSingleton;
 
 public class Activity_cadastro_servico extends AppCompatActivity {
 
@@ -49,6 +49,14 @@ public class Activity_cadastro_servico extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     StorageReference mStorageRef;
+    String uriDownload;
+
+    Servico s;
+    String nome;
+    String categoria;
+    String descricao;
+    String telefone;
+    float valor;
 
 
     public static final int PICK_IMAGE = 1;
@@ -97,14 +105,14 @@ public class Activity_cadastro_servico extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String nome = text_nome.getText().toString();
-                String categoria = text_categoria.getText().toString();
-                String descricao = text_descricao.getText().toString();
-                String telefone = text_telefone.getText().toString();
-                float valor = Float.parseFloat(text_valor.getText().toString());
+                nome = text_nome.getText().toString();
+                categoria = text_categoria.getText().toString();
+                descricao = text_descricao.getText().toString();
+                telefone = text_telefone.getText().toString();
+                valor = Float.parseFloat(text_valor.getText().toString());
 
                 if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0
-                //        || image_URI == null
+                    //        || image_URI == null
                 ) {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(Activity_cadastro_servico.this);
                     alerta.setTitle("Campos em branco");
@@ -120,33 +128,52 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                     AlertDialog alertDialog = alerta.create();
                     alertDialog.show();
                 } else {
-                    Servico s = new Servico();
-                    s.setUid(UUID.randomUUID().toString());
-                    s.setTitulo(nome);
-                    s.setCategoria(categoria);
-                    s.setStatus(1);
-                    s.setTelefone(telefone);
-                    s.setDescricao(descricao);
-                    s.setValor(valor);
 
+                    s = new Servico();
 
-                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_URI));
-                    fileReference.putFile(image_URI);
-
-
-
-                    databaseReference.child("Servico").child(s.getUid()).setValue(s)
-                            .addOnCompleteListener(Activity_cadastro_servico.this, new OnCompleteListener<Void>() {
+                    final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_URI));
+                    fileReference.putFile(image_URI)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(Activity_cadastro_servico.this, "Serviço cadastrado", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(Activity_cadastro_servico.this, "Serviço não cadastrado", Toast.LENGTH_SHORT).show();
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                    }
+                                    // get the image Url of the file uploaded
+                                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            // getting image uri and converting into string
+                                            Uri downloadUrl = uri;
+                                            uriDownload = downloadUrl.toString();
+
+                                            s.setUid(UUID.randomUUID().toString());
+                                            s.setTitulo(nome);
+                                            s.setCategoria(categoria);
+                                            s.setStatus(1);
+                                            s.setTelefone(telefone);
+                                            s.setDescricao(descricao);
+                                            s.setValor(valor);
+                                            s.setUriImagem(uriDownload);
+                                            s.setIdUsuario(UsuarioSingleton.getInstance().getUsuario().getUId());
+
+                                            databaseReference.child("Servico").child(s.getUid()).setValue(s)
+                                                    .addOnCompleteListener(Activity_cadastro_servico.this, new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Toast.makeText(Activity_cadastro_servico.this, "Serviço cadastrado", Toast.LENGTH_SHORT).show();
+                                                            } else {
+                                                                Toast.makeText(Activity_cadastro_servico.this, "Serviço não cadastrado", Toast.LENGTH_SHORT).show();
+
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    });
+
                                 }
                             });
+
+
                 }
             }
         });
