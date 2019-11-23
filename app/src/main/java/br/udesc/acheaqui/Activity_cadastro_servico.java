@@ -22,15 +22,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.FileDownloadTask;
 
 
-
+import java.net.URI;
 import java.util.UUID;
 
 import br.udesc.acheaqui.model.Servico;
@@ -65,6 +68,8 @@ public class Activity_cadastro_servico extends AppCompatActivity {
         text_telefone = (TextView) findViewById(R.id.serv_tel);
         text_valor = (TextView) findViewById(R.id.serv_valor);
         text_descricao = (TextView) findViewById(R.id.serv_desc);
+        job_image = (ImageView) findViewById(R.id.job_image);
+
 
         inicializarFirebase();
 
@@ -123,15 +128,12 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                     s.setTelefone(telefone);
                     s.setDescricao(descricao);
                     s.setValor(valor);
-                    // s.seturiImagem(image_URI);
 
-//                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-//                            + "." + getFileExtension(image_URI));
-//                    fileReference.putFile(image_URI);
 
-//
-//                    String uploadId = databaseReference.push().getKey();
-//                    s.setUrlImagem(uploadId);
+                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_URI));
+                    fileReference.putFile(image_URI);
+
+
 
                     databaseReference.child("Servico").child(s.getUid()).setValue(s)
                             .addOnCompleteListener(Activity_cadastro_servico.this, new OnCompleteListener<Void>() {
@@ -160,19 +162,21 @@ public class Activity_cadastro_servico extends AppCompatActivity {
         FirebaseApp.initializeApp(Activity_cadastro_servico.this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
     private void pickImage() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+        if (resultCode == RESULT_OK) {
             job_image = (ImageView) findViewById(R.id.job_image);
             job_image.setImageURI(data.getData());
             image_URI = data.getData();
