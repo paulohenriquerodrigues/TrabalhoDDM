@@ -40,6 +40,7 @@ public class ServiceActivity extends AppCompatActivity {
         telefone.setText("Telefone para contato: " + servico.getTelefone());
         descricao.setText("Descrição: " + servico.getDescricao());
 
+        System.out.println(servico.getUriImagem());
          Picasso.get().load(servico.getUriImagem()).into(image);
 
 
