@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activities.MyAccountActivity"></activity>
         <activity
-            android:name=".ServiceActivity"
+            android:name=".Activities.ServiceActivity"
             android:label="@string/title_activity_service"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MyAccountActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".Activity_cadastro_servico" />
-        <activity android:name=".RegistrarActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.HomeActivity" />
+        <activity android:name=".Activities.Activity_cadastro_servico" />
+        <activity android:name=".Activities.RegistrarActivity" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

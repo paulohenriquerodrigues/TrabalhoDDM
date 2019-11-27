@@ -1,5 +1,7 @@
 package br.udesc.acheaqui.adapter;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -43,6 +45,11 @@ public class ServicoAdapter extends BaseAdapter {
         TextView t = new TextView(context);
         Servico s = servicos.get(i);
         t.setText(s.getDescricao());
+        t.setTextSize(35);
+        t.setTextColor(Color.rgb(0,0,0));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
         return t;
     }
 }

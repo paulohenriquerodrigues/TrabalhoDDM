@@ -1,4 +1,4 @@
-package br.udesc.acheaqui;
+package br.udesc.acheaqui.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import br.udesc.acheaqui.R;
 import br.udesc.acheaqui.adapter.ServicoAdapter;
 import br.udesc.acheaqui.model.Servico;
 
@@ -33,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     private List<Servico> servicos = new ArrayList<Servico>();
-    private ArrayAdapter<Servico> adapter;
+    private ServicoAdapter adapter;
 
 
     @Override
@@ -42,7 +44,16 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         servicesList = (ListView) findViewById(R.id.servicesList);
-
+        servicesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object o = servicesList.getItemAtPosition(position);
+                Servico servico = (Servico) o;
+                Intent i = new Intent(HomeActivity.this, ServiceActivity.class);
+                i.putExtra("Service", servico);
+                startActivity(i);
+            }
+        });
         inicializarFirebase();
         eventoDataBase();
 
@@ -58,10 +69,12 @@ public class HomeActivity extends AppCompatActivity {
 
                     Servico s = objSnapshot.getValue(Servico.class);
                     servicos.add(s);
-                    System.out.println(s.getDescricao());
-                }
-                servicesList.setAdapter(new ServicoAdapter(HomeActivity.this, servicos));
 
+                }
+
+                adapter = new ServicoAdapter(HomeActivity.this,
+                        servicos);
+                servicesList.setAdapter(adapter);
             }
 
             @Override
@@ -88,6 +101,10 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.addservice:
                 Intent i = new Intent(HomeActivity.this, Activity_cadastro_servico.class);
+                startActivity(i);
+                return true;
+            case R.id.myAccount:
+                i = new Intent(HomeActivity.this, MyAccountActivity.class);
                 startActivity(i);
                 return true;
             default:

@@ -1,6 +1,8 @@
 package br.udesc.acheaqui.model;
 
-public class Servico {
+import java.io.Serializable;
+
+public class Servico implements Serializable {
 
     private String uid;
     private String titulo;
@@ -8,7 +10,7 @@ public class Servico {
     private String telefone;
     private double valor;
     private String descricao;
-    private String urlImagem;
+    private String uriImagem;
     private String idUsuario;
     private int status;  //1 aberto 2 encerrado;
 
@@ -55,14 +57,6 @@ public class Servico {
         this.descricao = descricao;
     }
 
-    public String getUrlImagem() {
-        return urlImagem;
-    }
-
-    public void setUrlImagem(String urlImagem) {
-        this.urlImagem = urlImagem;
-    }
-
     public String getIdUsuario() {
         return idUsuario;
     }
@@ -85,5 +79,13 @@ public class Servico {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getUriImagem() {
+        return uriImagem;
+    }
+
+    public void setUriImagem(String uriImagem) {
+        this.uriImagem = uriImagem;
     }
 }
