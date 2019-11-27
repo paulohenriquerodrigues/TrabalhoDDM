@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.udesc.acheaqui.model.Usuario;
+import br.udesc.acheaqui.model.UsuarioSingleton;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     if (usuarios.get(i).getEmail().equals(email) &&
                             usuarios.get(i).getSenha().equals(senha)) {
                         valido = true;
+                        UsuarioSingleton.getInstance().setUsuario(usuarios.get(i));
                     }
 
                 }
