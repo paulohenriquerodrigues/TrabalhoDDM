@@ -100,7 +100,7 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                 valor = Float.parseFloat(text_valor.getText().toString());
 
                 if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0
-                    //        || image_URI == null
+                        || image_URI == null
                 ) {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(Activity_cadastro_servico.this);
                     alerta.setTitle("Campos em branco");
@@ -116,7 +116,7 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                     AlertDialog alertDialog = alerta.create();
                     alertDialog.show();
                 } else {
-
+                    Toast.makeText(Activity_cadastro_servico.this, "Cadastrando servico, aguarde...", Toast.LENGTH_SHORT).show();
                     s = new Servico();
 
                     final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_URI));
@@ -125,11 +125,10 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                    // get the image Url of the file uploaded
                                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            // getting image uri and converting into string
+
                                             Uri downloadUrl = uri;
                                             uriDownload = downloadUrl.toString();
 

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import br.udesc.acheaqui.adapter.ServicoAdapter;
 import br.udesc.acheaqui.model.Servico;
 
 import com.google.firebase.database.ValueEventListener;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -36,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     private List<Servico> servicos = new ArrayList<Servico>();
-    private ArrayAdapter<Servico> adapter;
+    private ServicoAdapter adapter;
 
 
     @Override
@@ -71,8 +73,9 @@ public class HomeActivity extends AppCompatActivity {
                     Servico s = objSnapshot.getValue(Servico.class);
                     servicos.add(s);
                 }
-                adapter = new ArrayAdapter<Servico>(HomeActivity.this,
-                        android.R.layout.simple_list_item_1, servicos);
+                adapter = new ServicoAdapter(HomeActivity.this,
+                       // android.R.layout.simple_list_item_1,
+                        servicos) ;
                 servicesList.setAdapter(adapter);
             }
 
