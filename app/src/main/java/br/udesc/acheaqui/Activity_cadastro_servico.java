@@ -30,7 +30,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 
 
-
 import java.util.UUID;
 
 import br.udesc.acheaqui.model.Servico;
@@ -72,18 +71,6 @@ public class Activity_cadastro_servico extends AppCompatActivity {
         bt_imagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        requestPermissions(permissions);
-                    }else{
-                        pickImage();
-                    }
-                }else{
-                    pickImage();
-                }
-                */
                 pickImage();
             }
         });
@@ -99,7 +86,7 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                 float valor = Float.parseFloat(text_valor.getText().toString());
 
                 if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0
-                //        || image_URI == null
+                    //        || image_URI == null
                 ) {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(Activity_cadastro_servico.this);
                     alerta.setTitle("Campos em branco");
