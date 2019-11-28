@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
 import br.udesc.acheaqui.R;
 import br.udesc.acheaqui.model.Servico;
 

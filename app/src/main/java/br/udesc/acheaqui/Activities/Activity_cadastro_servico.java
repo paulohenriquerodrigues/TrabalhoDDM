@@ -14,9 +14,12 @@ import android.webkit.MimeTypeMap;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import br.udesc.acheaqui.R;
@@ -42,7 +47,8 @@ public class Activity_cadastro_servico extends AppCompatActivity {
     ImageView job_image;
     EditText text_nome;
     Uri image_URI;
-    TextView text_categoria, text_telefone, text_valor, text_descricao;
+    TextView text_telefone, text_valor, text_descricao;
+    Spinner text_categoria;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -65,12 +71,24 @@ public class Activity_cadastro_servico extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_servico);
 
+        List<String> categoriaItens = new ArrayList<>();
+        categoriaItens.add("Jardinagem");
+        categoriaItens.add("Pintura");
+        categoriaItens.add("Limpeza");
+        categoriaItens.add("Doméstico");
+        categoriaItens.add("Outros");
+
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categoriaItens);
+        text_categoria = (Spinner)findViewById(R.id.serv_cat);
+        text_categoria.setAdapter(adapter);
+
+
 
         bt_imagem = (Button) findViewById(R.id.bt_imagem);
         bt_cadastrar = (Button) findViewById(R.id.bt_cadastrar);
 
         text_nome = (EditText) findViewById(R.id.serv_nome);
-        text_categoria = (TextView) findViewById(R.id.serv_cat);
+        text_categoria = (Spinner) findViewById(R.id.serv_cat);
         text_telefone = (TextView) findViewById(R.id.serv_tel);
         text_valor = (TextView) findViewById(R.id.serv_valor);
         text_descricao = (TextView) findViewById(R.id.serv_desc);
@@ -92,12 +110,13 @@ public class Activity_cadastro_servico extends AppCompatActivity {
             public void onClick(View view) {
 
                 nome = text_nome.getText().toString();
-                categoria = text_categoria.getText().toString();
+
+                categoria = text_categoria.getSelectedItem().toString();
                 descricao = text_descricao.getText().toString();
                 telefone = text_telefone.getText().toString();
                 valor = Float.parseFloat(text_valor.getText().toString());
 
-                if (nome.trim().isEmpty() || categoria.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0
+                if (nome.trim().isEmpty() || descricao.trim().isEmpty() || telefone.trim().isEmpty() || valor < 0
                         || image_URI == null
                 ) {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(Activity_cadastro_servico.this);
