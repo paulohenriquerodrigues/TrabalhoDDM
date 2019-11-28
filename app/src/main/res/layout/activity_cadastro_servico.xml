@@ -63,14 +63,15 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"/>
 
-            <EditText
+            <com.santalu.maskedittext.MaskEditText
                 android:id="@+id/serv_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:textColor="#000"
                 android:textStyle="bold"
-                android:inputType="textPersonName" />
+                android:inputType="phone"
+                app:met_mask="+55 (##) # ########"/>
 
             <TextView
                 android:id="@+id/text_valor"
@@ -81,14 +82,15 @@
                 android:textStyle="bold"
                 android:textSize="25sp" />
 
-            <EditText
+            <com.santalu.maskedittext.MaskEditText
                 android:id="@+id/serv_valor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:textColor="#000"
                 android:textStyle="bold"
-                android:inputType="textPersonName" />
+                android:inputType="numberDecimal"
+            />
 
             <TextView
                 android:id="@+id/text_descricao"

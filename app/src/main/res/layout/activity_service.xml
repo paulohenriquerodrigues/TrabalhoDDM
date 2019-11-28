@@ -22,9 +22,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_service" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,6 +30,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/content_service" />
 
             <TextView
                 android:id="@+id/serviceDescription"
