@@ -1,21 +1,36 @@
 package br.udesc.acheaqui.Activities;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.net.URI;
+
 import br.udesc.acheaqui.R;
 import br.udesc.acheaqui.model.Servico;
 
+import static android.content.Intent.*;
+
 public class ServiceActivity extends AppCompatActivity {
 
-    private TextView titulo,preco,categoria,telefone,descricao;
+    private TextView titulo,preco,categoria,descricao;
     private ImageView image;
+    private ImageButton telefone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,23 +39,33 @@ public class ServiceActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Servico servico = (Servico) getIntent().getSerializableExtra("Service");
+        final Servico servico = (Servico) getIntent().getSerializableExtra("Service");
 
         image = this.findViewById(R.id.serviceImage);
         titulo = this.findViewById(R.id.serviceName);
         preco = this.findViewById(R.id.servicePrice);
         categoria = this.findViewById(R.id.serviceCategory);
-        telefone = this.findViewById(R.id.servicePhone);
+        telefone = this.findViewById(R.id.ButtonPhone);
         descricao = this.findViewById(R.id.serviceDescription);
 
         titulo.setText(servico.getTitulo());
         preco.setText("Valor do serviço: " + servico.getValor());
         categoria.setText("Categoria: " + servico.getCategoria());
-        telefone.setText("Telefone para contato: " + servico.getTelefone());
         descricao.setText("Descrição: " + servico.getDescricao());
+        Picasso.get().load(servico.getUriImagem()).into(image);
+        telefone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("tel:"+servico.getTelefone());
+                Intent i = new Intent(ACTION_CALL, uri);
+                if(ActivityCompat.checkSelfPermission(ServiceActivity.this, Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(ServiceActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                }
+                startActivity(i);
+            }
+        });
 
-        System.out.println(servico.getUriImagem());
-         Picasso.get().load(servico.getUriImagem()).into(image);
 
 
     }
