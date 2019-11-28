@@ -1,13 +1,18 @@
 package br.udesc.acheaqui.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +48,10 @@ public class MyAccountActivity extends AppCompatActivity {
         inicializarFirebase();
 
         text_nome.setText(UsuarioSingleton.getInstance().getUsuario().getNome());
-
+        text_cidade.setText(UsuarioSingleton.getInstance().getUsuario().getCidade());
+        text_bairro.setText(UsuarioSingleton.getInstance().getUsuario().getEstado());
+        text_email.setText(UsuarioSingleton.getInstance().getUsuario().getEmail());
+        text_senha.setText(UsuarioSingleton.getInstance().getUsuario().getSenha());
 
         bt_alterar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +63,29 @@ public class MyAccountActivity extends AppCompatActivity {
                 String cidade = text_cidade.getText().toString();
                 String bairro = text_bairro.getText().toString();
                 String sexo = "Masc";
+
+                UsuarioSingleton.getInstance().getUsuario().setNome(nome);
+                UsuarioSingleton.getInstance().getUsuario().setEmail(email);
+                UsuarioSingleton.getInstance().getUsuario().setSenha(senha);
+                UsuarioSingleton.getInstance().getUsuario().setCidade(cidade);
+                UsuarioSingleton.getInstance().getUsuario().setEstado(bairro);
+
+
+                databaseReference.child("Usuario").child(UsuarioSingleton.getInstance().getUsuario().getUId())
+                        .setValue(UsuarioSingleton.getInstance().getUsuario()) .addOnCompleteListener(MyAccountActivity.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MyAccountActivity.this, "Usuário Alterado", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(MyAccountActivity.this, HomeActivity.class);
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(MyAccountActivity.this, "Usuário não Alterado", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
             }
             }
         );}
