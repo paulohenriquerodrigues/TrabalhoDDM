@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +28,8 @@ public class MyAccountActivity extends AppCompatActivity {
     EditText text_nome, text_email, text_senha, text_cidade, text_bairro;
     RadioButton rb_masc, rb_fem;
     Button bt_alterar;
+    RadioGroup radioGroup;
+
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -45,6 +48,8 @@ public class MyAccountActivity extends AppCompatActivity {
         rb_masc = (RadioButton) findViewById(R.id.rb_masc);
         rb_fem = (RadioButton) findViewById(R.id.rb_fem);
         bt_alterar = (Button) findViewById(R.id.bt_alterar);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup2);
+
 
         inicializarFirebase();
 
@@ -55,12 +60,10 @@ public class MyAccountActivity extends AppCompatActivity {
         text_senha.setText(UsuarioSingleton.getInstance().getUsuario().getSenha());
 
         if(UsuarioSingleton.getInstance().getUsuario().getSexo() == 1){
-            rb_masc.setSelected(true);
-            rb_fem.setSelected(false);
+            rb_masc.setChecked(true);
 
         }else{
-            rb_masc.setSelected(false);
-            rb_fem.setSelected(true);
+            rb_fem.setChecked(true);
 
         }
 
@@ -75,11 +78,13 @@ public class MyAccountActivity extends AppCompatActivity {
                 String bairro = text_bairro.getText().toString();
                 int sexo = 0;
 
-                if(rb_masc.isSelected()){
-                    sexo = 1;
-                }
-                if(rb_fem.isSelected()){
-                    sexo = 2;
+                switch (radioGroup.getCheckedRadioButtonId()) {
+                    case R.id.rb_masc:
+                        sexo=1;
+                        break;
+                    case R.id.rb_fem:
+                        sexo=2;
+                        break;
                 }
 
                 UsuarioSingleton.getInstance().getUsuario().setNome(nome);
