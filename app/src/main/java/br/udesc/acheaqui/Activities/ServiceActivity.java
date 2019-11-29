@@ -30,7 +30,7 @@ public class ServiceActivity extends AppCompatActivity {
 
     private TextView titulo,preco,categoria,descricao;
     private ImageView image;
-    private ImageButton telefone;
+    private ImageButton telefone, whats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class ServiceActivity extends AppCompatActivity {
         preco = this.findViewById(R.id.servicePrice);
         categoria = this.findViewById(R.id.serviceCategory);
         telefone = this.findViewById(R.id.ButtonPhone);
+        whats = this.findViewById(R.id.buttonWhats);
         descricao = this.findViewById(R.id.serviceDescription);
 
         titulo.setText(servico.getTitulo());
@@ -63,6 +64,21 @@ public class ServiceActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(ServiceActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
                 }
                 startActivity(i);
+            }
+        });
+
+        whats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numero = servico.getTelefone().replaceAll("\\(", "");
+                numero = numero.replaceAll("\\)", "");
+                numero = numero.replace("+", "");
+                numero = numero.replaceAll(" ","");
+                Uri uri = Uri.parse("smsto:"+numero);
+                System.out.println(numero);
+                Intent i = new Intent(ACTION_SENDTO, uri);
+                i.setPackage("com.whatsapp");
+                startActivity(Intent.createChooser(i, ""));
             }
         });
 
