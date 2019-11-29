@@ -1,8 +1,5 @@
 package br.udesc.acheaqui.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,21 +9,25 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import br.udesc.acheaqui.R;
-import br.udesc.acheaqui.adapter.ServicoAdapter;
-import br.udesc.acheaqui.model.Servico;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+import br.udesc.acheaqui.R;
+import br.udesc.acheaqui.adapter.ServicoAdapter;
+import br.udesc.acheaqui.model.Servico;
+import br.udesc.acheaqui.model.UsuarioSingleton;
+
+public class MyServicesActivity extends AppCompatActivity {
 
 
     ListView servicesList;
@@ -41,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_my_services);
 
         servicesList = (ListView) findViewById(R.id.servicesList);
         servicesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = servicesList.getItemAtPosition(position);
                 Servico servico = (Servico) o;
-                Intent i = new Intent(HomeActivity.this, ServiceActivity.class);
+                Intent i = new Intent(MyServicesActivity.this, Activity_alterar_servico.class);
                 i.putExtra("Service", servico);
                 startActivity(i);
             }
@@ -68,12 +69,13 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
 
                     Servico s = objSnapshot.getValue(Servico.class);
-                    if(s.getStatus() == 1) {
+                    if(s.getIdUsuario().equals(UsuarioSingleton.getInstance().getUsuario().getUId())){
                         servicos.add(s);
                     }
+
                 }
 
-                adapter = new ServicoAdapter(HomeActivity.this,
+                adapter = new ServicoAdapter(MyServicesActivity.this,
                         servicos);
                 servicesList.setAdapter(adapter);
             }
@@ -85,36 +87,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void inicializarFirebase() {
-        FirebaseApp.initializeApp(HomeActivity.this);
+        FirebaseApp.initializeApp(MyServicesActivity.this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addservice:
-                Intent i = new Intent(HomeActivity.this, Activity_cadastro_servico.class);
-                startActivity(i);
-                return true;
-            case R.id.myAccount:
-                i = new Intent(HomeActivity.this, MyAccountActivity.class);
-                startActivity(i);
-                return true;
-            case R.id.meuservicos:
-                i = new Intent(HomeActivity.this, MyServicesActivity.class);
-                startActivity(i);
-                return true;
-            default:
-                return true;
-        }
     }
 
 }

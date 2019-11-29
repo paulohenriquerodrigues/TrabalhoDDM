@@ -44,7 +44,7 @@ public class ServicoAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView t = new TextView(context);
         Servico s = servicos.get(i);
-        t.setText(s.getDescricao());
+        t.setText(s.getTitulo());
         t.setTextSize(35);
         t.setTextColor(Color.rgb(0,0,0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

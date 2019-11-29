@@ -17,11 +17,14 @@
             android:name=".Activities.ServiceActivity"
             android:label="@string/title_activity_service"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MyAccountActivity" />
         <activity android:name=".Activities.HomeActivity" />
+        <activity android:name=".Activities.MyServicesActivity" />
+        <activity android:name=".Activities.Activity_alterar_servico"/>
         <activity android:name=".Activities.Activity_cadastro_servico" />
         <activity android:name=".Activities.RegistrarActivity" />
         <activity android:name=".Activities.MainActivity">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
