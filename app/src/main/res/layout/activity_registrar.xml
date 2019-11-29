@@ -74,13 +74,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_senha" />
 
             <EditText
-                android:id="@+id/text_bairro"
+                android:id="@+id/text_estado"
                 android:layout_width="match_parent"
                 android:textSize="30dp"
                 android:layout_height="53dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
-                android:hint="Bairro"
+                android:hint="Estado"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

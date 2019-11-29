@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import android.widget.RadioGroup;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,9 +30,11 @@ import br.udesc.acheaqui.model.Usuario;
 
 public class RegistrarActivity extends AppCompatActivity {
 
-    EditText text_nome, text_email, text_senha, text_cidade, text_bairro;
+    EditText text_nome, text_email, text_senha, text_cidade, text_estado;
     RadioButton rb_masc, rb_fem;
     Button bt_registrar;
+    RadioGroup radioGroup;
+
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -47,10 +50,12 @@ public class RegistrarActivity extends AppCompatActivity {
         text_email = (EditText) findViewById(R.id.text_email);
         text_senha = (EditText) findViewById(R.id.text_senha);
         text_cidade = (EditText) findViewById(R.id.text_cidade);
-        text_bairro = (EditText) findViewById(R.id.text_bairro);
+        text_estado = (EditText) findViewById(R.id.text_estado);
         rb_masc = (RadioButton) findViewById(R.id.rb_masc);
         rb_fem = (RadioButton) findViewById(R.id.rb_fem);
         bt_registrar = (Button) findViewById(R.id.bt_registrar);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup2);
+
 
         inicializarFirebase();
 
@@ -61,14 +66,14 @@ public class RegistrarActivity extends AppCompatActivity {
                 String email = text_email.getText().toString();
                 String senha = text_senha.getText().toString();
                 String cidade = text_cidade.getText().toString();
-                String bairro = text_bairro.getText().toString();
+                String estado = text_estado.getText().toString();
                 String sexo = "Masc";
 
                 if (nome.equals("") ||
                         email.equals("") ||
                         senha.equals("") ||
                         cidade.equals("") ||
-                        bairro.equals("")) {
+                        estado.equals("")) {
 
                     AlertDialog.Builder alerta = new AlertDialog.Builder(RegistrarActivity.this);
                     alerta.setTitle("Aviso");
@@ -92,8 +97,17 @@ public class RegistrarActivity extends AppCompatActivity {
                     u.setEmail(email);
                     u.setSenha(senha);
                     u.setCidade(cidade);
-                    u.setEstado(bairro);
-                    u.setSexo(1);
+                    u.setEstado(estado);
+
+                    switch (radioGroup.getCheckedRadioButtonId()) {
+                        case R.id.rb_masc:
+                            u.setSexo(1);
+                            break;
+                        case R.id.rb_fem:
+                            u.setSexo(2);
+                            break;
+                    }
+
                     databaseReference.child("Usuario").child(u.getUId()).setValue(u)
                             .addOnCompleteListener(RegistrarActivity.this, new OnCompleteListener<Void>() {
                                 @Override

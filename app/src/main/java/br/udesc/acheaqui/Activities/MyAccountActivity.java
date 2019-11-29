@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import br.udesc.acheaqui.R;
+import br.udesc.acheaqui.model.Usuario;
 import br.udesc.acheaqui.model.UsuarioSingleton;
 
 public class MyAccountActivity extends AppCompatActivity {
@@ -53,6 +54,16 @@ public class MyAccountActivity extends AppCompatActivity {
         text_email.setText(UsuarioSingleton.getInstance().getUsuario().getEmail());
         text_senha.setText(UsuarioSingleton.getInstance().getUsuario().getSenha());
 
+        if(UsuarioSingleton.getInstance().getUsuario().getSexo() == 1){
+            rb_masc.setSelected(true);
+            rb_fem.setSelected(false);
+
+        }else{
+            rb_masc.setSelected(false);
+            rb_fem.setSelected(true);
+
+        }
+
         bt_alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,13 +73,21 @@ public class MyAccountActivity extends AppCompatActivity {
                 String senha = text_senha.getText().toString();
                 String cidade = text_cidade.getText().toString();
                 String bairro = text_bairro.getText().toString();
-                String sexo = "Masc";
+                int sexo = 0;
+
+                if(rb_masc.isSelected()){
+                    sexo = 1;
+                }
+                if(rb_fem.isSelected()){
+                    sexo = 2;
+                }
 
                 UsuarioSingleton.getInstance().getUsuario().setNome(nome);
                 UsuarioSingleton.getInstance().getUsuario().setEmail(email);
                 UsuarioSingleton.getInstance().getUsuario().setSenha(senha);
                 UsuarioSingleton.getInstance().getUsuario().setCidade(cidade);
                 UsuarioSingleton.getInstance().getUsuario().setEstado(bairro);
+                UsuarioSingleton.getInstance().getUsuario().setSexo(sexo);
 
 
                 databaseReference.child("Usuario").child(UsuarioSingleton.getInstance().getUsuario().getUId())
