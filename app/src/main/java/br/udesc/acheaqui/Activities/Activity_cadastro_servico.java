@@ -79,14 +79,11 @@ public class Activity_cadastro_servico extends AppCompatActivity {
         categoriaItens.add("Outros");
 
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categoriaItens);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         text_categoria = (Spinner)findViewById(R.id.serv_cat);
         text_categoria.setAdapter(adapter);
-
-
-
         bt_imagem = (Button) findViewById(R.id.bt_imagem);
         bt_cadastrar = (Button) findViewById(R.id.bt_cadastrar);
-
         text_nome = (EditText) findViewById(R.id.serv_nome);
         text_categoria = (Spinner) findViewById(R.id.serv_cat);
         text_telefone = (TextView) findViewById(R.id.serv_tel);
@@ -166,9 +163,10 @@ public class Activity_cadastro_servico extends AppCompatActivity {
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {
                                                                 Toast.makeText(Activity_cadastro_servico.this, "Serviço cadastrado", Toast.LENGTH_SHORT).show();
+                                                                Intent i = new Intent(Activity_cadastro_servico.this, HomeActivity.class);
+                                                                startActivity(i);
                                                             } else {
-                                                                Toast.makeText(Activity_cadastro_servico.this, "Serviço não cadastrado", Toast.LENGTH_SHORT).show();
-
+                                                                Toast.makeText(Activity_cadastro_servico.this, "ERRO, tente novamente", Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                     });

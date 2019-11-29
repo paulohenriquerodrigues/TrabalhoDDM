@@ -48,14 +48,13 @@
             <Spinner
                 android:id="@+id/serv_cat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:minHeight="25sp"
+                android:minHeight="50sp"
                 android:spinnerMode="dropdown"
                 android:textColor="#000"
-
-                android:textSize="36sp"
+                android:textSize="50sp"
                 android:textStyle="bold" />
 
             <TextView

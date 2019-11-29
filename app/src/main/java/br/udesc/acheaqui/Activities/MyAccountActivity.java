@@ -29,7 +29,7 @@ public class MyAccountActivity extends AppCompatActivity {
     RadioButton rb_masc, rb_fem;
     Button bt_alterar;
     RadioGroup radioGroup;
-
+    Usuario user;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -39,6 +39,7 @@ public class MyAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
+        user = UsuarioSingleton.getInstance().getUsuario();
 
         text_nome = (EditText) findViewById(R.id.text_nome);
         text_email = (EditText) findViewById(R.id.text_email);
@@ -53,13 +54,13 @@ public class MyAccountActivity extends AppCompatActivity {
 
         inicializarFirebase();
 
-        text_nome.setText(UsuarioSingleton.getInstance().getUsuario().getNome());
-        text_cidade.setText(UsuarioSingleton.getInstance().getUsuario().getCidade());
-        text_bairro.setText(UsuarioSingleton.getInstance().getUsuario().getEstado());
-        text_email.setText(UsuarioSingleton.getInstance().getUsuario().getEmail());
-        text_senha.setText(UsuarioSingleton.getInstance().getUsuario().getSenha());
+        text_nome.setText(user.getNome());
+        text_cidade.setText(user.getCidade());
+        text_bairro.setText(user.getEstado());
+        text_email.setText(user.getEmail());
+        text_senha.setText(user.getSenha());
 
-        if(UsuarioSingleton.getInstance().getUsuario().getSexo() == 1){
+        if(user.getSexo() == 1){
             rb_masc.setChecked(true);
 
         }else{
@@ -87,16 +88,16 @@ public class MyAccountActivity extends AppCompatActivity {
                         break;
                 }
 
-                UsuarioSingleton.getInstance().getUsuario().setNome(nome);
-                UsuarioSingleton.getInstance().getUsuario().setEmail(email);
-                UsuarioSingleton.getInstance().getUsuario().setSenha(senha);
-                UsuarioSingleton.getInstance().getUsuario().setCidade(cidade);
-                UsuarioSingleton.getInstance().getUsuario().setEstado(bairro);
-                UsuarioSingleton.getInstance().getUsuario().setSexo(sexo);
 
+                user.setNome(nome);
+                user.setEmail(email);
+                user.setSenha(senha);
+                user.setCidade(cidade);
+                user.setEstado(bairro);
+                user.setSexo(sexo);
 
-                databaseReference.child("Usuario").child(UsuarioSingleton.getInstance().getUsuario().getUId())
-                        .setValue(UsuarioSingleton.getInstance().getUsuario()) .addOnCompleteListener(MyAccountActivity.this, new OnCompleteListener<Void>() {
+                databaseReference.child("Usuario").child(user.getUId())
+                        .setValue(user) .addOnCompleteListener(MyAccountActivity.this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
